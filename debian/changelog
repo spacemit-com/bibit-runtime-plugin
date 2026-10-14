@@ -1,0 +1,407 @@
+bibit-runtime-plugin (0.1.50) resolute-porting; urgency=medium
+
+  * Move the security permission settings onto their own security page. The
+    page now has six tabs (agents, capabilities, permission settings,
+    syscalls, DLP and audit) so the scopes are no longer buried under the
+    capability table.
+  * Replace the flat read and write path lists with include + exclude pairs,
+    and drop the custom JSON group. An excluded read path becomes invisible
+    while an excluded write path stays readable, which is what the Runtime
+    compiles into its mount boundaries.
+  * Show the execution mode read-only. host or sandbox follows from the
+    declared settings, so the page reports the derived result instead of
+    offering a selector.
+  * Remove the syscall denylist baseline from the syscall page: nothing is
+    mandatory, entries start unchecked and the page says so.
+  * Drop every security control from the Expert editor. Capability policies,
+    the JSON policy panel, the network scope, the personal-data policy and
+    the host/sandbox selector now live only in the security control center,
+    and the editor no longer sends permissions or a requested execution mode.
+
+ -- liudecheng[bot] <decheng.liu@spacemit.com>  Wed, 14 Oct 2026 20:50:00 +0800
+
+bibit-runtime-plugin (0.1.49) resolute-porting; urgency=medium
+
+  * Default every tool policy to `allow`. The expert editor and the security
+    console both fell back to `ask` when a tool had no declared policy, which
+    contradicts the shipped default. The fallback is now `allow` everywhere it
+    is derived, while an explicitly declared policy is left untouched.
+  * Split the syscall denylist into its own security page. It is a kernel
+    seccomp table, not a filesystem or network scope, so the security page now
+    has five tabs (agents, capabilities, syscalls, DLP and audit). The new page
+    carries the architecture selector, the mandatory-versus-optional split and
+    the interception audit that used to sit inside the capability page.
+
+ -- liudecheng[bot] <decheng.liu@spacemit.com>  Wed, 14 Oct 2026 18:25:00 +0800
+
+bibit-runtime-plugin (0.1.48) resolute-porting; urgency=medium
+
+  * Keep watching an MCP server after it is installed or removed. The Runtime
+    answers an install from the Control catalog while the Worker may still be
+    rebuilding its Generation, so the page used to show `not_loaded` right
+    after a successful install and then stop looking. The MCP page now polls
+    for a bounded settling window and re-arms that poll after every mutation.
+  * Correct the `not_loaded` explanation: the Runtime prepares every installed
+    server once a Worker is ready, whether or not an Expert selects it.
+  * Track the Runtime security page change: capability management is now one
+    dimension, the tool, with three states (allow, ask, deny). The capability
+    page lists a policy per tool plus the five security permission groups, the
+    DLP page uses the same three states plus `mask`, and the security page
+    keeps four tabs (agents, capabilities, DLP and audit). The tool catalog is
+    scoped by framework, so an Expert bound to the Runtime sees the Runtime
+    tools and one bound to hermes sees the hermes tools.
+
+ -- liudecheng[bot] <decheng.liu@spacemit.com>  Wed, 14 Oct 2026 12:10:00 +0800
+
+bibit-runtime-plugin (0.1.47) resolute-porting; urgency=medium
+
+  * Follow the Runtime's Power format v2 display fields for Experts. The plugin
+    sends and reads `name_en` and `description_zh` next to `name_zh`, and the
+    Expert list, the delete dialog, the Provider "in use" list and the Agent
+    monitor now pick the display name from the active interface language,
+    falling back to the call name when `name_en` is absent.
+
+ -- liudecheng[bot] <decheng.liu@spacemit.com>  Wed, 30 Sep 2026 16:40:00 +0800
+
+bibit-runtime-plugin (0.1.46) resolute-porting; urgency=medium
+
+  * Read the expert display name from `name_zh`. The Runtime renamed the Agent
+    field from `zh_name` to `name_zh`, so the Expert list, the delete dialog,
+    the Expert editor, the Provider "in use" list and the Agent monitor now
+    send and read `name_zh`, and the editor state is `nameZh`. Runtime rejects
+    the old key, so the plugin does not fall back to it.
+
+ -- liudecheng[bot] <decheng.liu@spacemit.com>  Wed, 30 Sep 2026 11:35:00 +0800
+
+bibit-runtime-plugin (0.1.45) resolute-porting; urgency=medium
+
+  * Follow the interface language for Skill, tool, plugin and MCP names.
+    Skills written in Power format v2 carry `name_zh`, `name_en` and
+    `description_zh` next to the call name; the catalog, and the Skill and
+    tool lists inside the Expert editor, now prefer the field that matches the
+    language and fall back to `display_name` / `name` for older Skills.
+  * Explain what an MCP server is doing instead of showing a bare status.
+    `not_loaded` now says whether an Expert selects the server or the Worker
+    has not reported it, and `preparing` reports its `phase`: installing the
+    npm package, or starting and handshaking. A server that is still
+    preparing is polled, so its phase advances without manual refreshing.
+  * Merge the two refresh buttons on the MCP page. The page header now always
+    runs `mcps.refresh.v1` before rereading the catalog, so one button does
+    the whole job instead of two buttons doing different halves of it.
+  * Plugin bundle 0.2.37 -> 0.2.38.
+
+ -- liudecheng[bot] <decheng.liu@spacemit.com>  Tue, 29 Sep 2026 10:45:00 +0800
+
+bibit-runtime-plugin (0.1.44) resolute-porting; urgency=medium
+
+  * 修复 adapter 与 Runtime 的对接：Runtime 已改为系统级单实例 unit
+    （bianbu-agent-runtime.service），adapter unit 的 After/Wants 却仍指向不存在的
+    bianbu-agent-runtime@%i.service 模板，导致启动顺序无保证；现在指向正确的单实例
+    服务。postinst 之前用 `id bianbu` 作为 enable 的门槛，镜像 chroot/初始化阶段还没
+    创建设备用户时会整体跳过 enable，首次启动后 adapter 一直是 disabled、5186 无人
+    监听，Runtime 各页面状态不同步；改为始终 enable（只写 wants 符号链接、不依赖运行
+    中的 systemd），仅在真实 systemd 运行且 bianbu 已存在时立即 restart。错误恢复文案
+    里的 `systemctl start bianbu-agent-runtime@bianbu` 同步改为 `bianbu-agent-runtime`。
+    插件 bundle 0.2.36 → 0.2.37。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Sun, 28 Sep 2026 18:10:00 +0800
+
+bibit-runtime-plugin (0.1.43) resolute-porting; urgency=medium
+
+  * 卸载 MCP 后 MCP 页不再需要手点刷新。Runtime 的 MCP 安装、卸载和健康检查都要
+    重建整代 Worker，实测每项约 18.1s，超过宿主给 external service 的 30s 预算：
+    变更本身成功，插件却在 `await refresh()` 之前被超时打断，面板停在旧快照上。
+    变更类操作（install / delete / refresh）现在带 180s 预算，读操作沿用宿主默认；
+    `runAction` 先重新读取目录再报结果；MCP 页在卸载期间先把该条移出列表，结束时
+    复位。部署注册表的 `requestTimeoutMs` 同步放宽到 180000。插件 bundle
+    0.2.35 → 0.2.36。
+  * 修掉 `mcps.refresh.v1` 的 422：网关过去给 `POST /api/v1/mcp-health-checks`
+    带了 `{}`，Runtime 的 `_require_empty_body` 直接拒绝，健康检查其实从未执行；
+    现在改为不带 body 的 POST。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Thu, 24 Sep 2026 17:10:00 +0800
+
+bibit-runtime-plugin (0.1.42) resolute-porting; urgency=medium
+
+  * 与服务商编辑有关的密钥提示对齐 DeepSeek Harness：已有凭据时 API Key 输入框
+    显示「已配置 — 输入新值可替换」（英文 Configured — enter a new value to
+    replace），新建时显示「输入 API 密钥」；服务端只回掩码，输入框始终为空，
+    留空保存即保留旧值。插件 bundle 0.2.34 → 0.2.35。
+  * MCP 页只列独立 MCP 并在顶部说明插件随包提供的 MCP 在插件页显示；插件页把
+    MCP 成员从成员清单挪到单独的「插件自带的 MCP」一段，用 /mcp-servers 快照打
+    状态与工具数，快照不可得时标 unknown 且不影响插件列表加载。中英文案补齐。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Wed, 23 Sep 2026 16:50:00 +0800
+
+bibit-runtime-plugin (0.1.41) resolute-porting; urgency=medium
+
+  * 安全控制中心「已注册 Agent」的「最近活动」按本地时区显示：securityd 下发的是
+    ISO-8601 UTC，插件原样渲染导致页面上的时间比本地时间早 8 小时；agent 没有活动
+    证据时还会显示空。现在解析后按浏览器本地时间显示（刚发生「刚刚」、一小时内
+    「N 分钟前」、更早给绝对时间，当天省略日期），没有活动证据写「暂无活动」并把
+    安装时间放进悬浮提示，审计日志的「时间」列同样本地化。插件 bundle
+    0.2.33 → 0.2.34。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Wed, 23 Sep 2026 15:30:00 +0800
+
+bibit-runtime-plugin (0.1.40) resolute-porting; urgency=medium
+
+  * 重新出包：bianbu/0.1.39 指向的提交同时存在于 main 与
+    fix/expert-capability-language 两个分支，打包流水线在
+    「Please select the correct development branch」处读到 EOF 而失败，
+    0.1.39 未发布。本次在 main 上新增提交（README 的版本说明改为引用
+    manifest，不再写死过期版本号）并以 bianbu/0.1.40 重新打 tag；
+    0.1.39 条目里的界面改动随本次一起发布，插件 bundle 0.2.32 → 0.2.33。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Mon, 21 Sep 2026 16:35:00 +0800
+
+bibit-runtime-plugin (0.1.39) resolute-porting; urgency=medium
+
+  * 「专家」编辑弹窗的能力列表也按界面语言取工具简介：列表里那行详情过去
+    直接用工具自己的 description（英文 docstring），中文界面上会中英混排。
+    现在同样先取 summaries[语言]，为空时退回 description；该行本来就带
+    title，悬浮可以看到完整文本。插件 bundle 0.2.31 → 0.2.32（与
+    bibit.feature.json 同步）。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Mon, 21 Sep 2026 16:20:00 +0800
+
+bibit-runtime-plugin (0.1.38) resolute-porting; urgency=medium
+
+  * 「工具」页的工具介绍随界面语言切换：Runtime 的内置工具现在随能力目录
+    下发 summaries（zh/en 各一句话），页面按宿主语言取对应的一条，卡片仍
+    两行截断、悬浮（title）时显示完整文本；没有 summaries 的工具（用户
+    工具、Plugin 工具、MCP 工具）继续显示自己的 description。
+  * CapabilityView 增加可选 summaries 字段。插件 bundle 0.2.30 → 0.2.31
+    （与 bibit.feature.json 同步）。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Mon, 21 Sep 2026 15:20:00 +0800
+
+bibit-runtime-plugin (0.1.37) resolute-porting; urgency=medium
+
+  * 本地模型页 LLM 分节标题由「意图识别模型」改为「大语言模型」，卡片标题
+    改渲染 Runtime 新给的 artifact 字段（如 glm-edge-1.5b-chat-q4_0.gguf），
+    拿不到时退回 name，页面不再出现 Gateway 条目 id bibit-llm / bibit-embed。
+  * LocalModelsView 增加可选 artifact 字段；老 Runtime 不返回该字段时行为
+    不变。插件 bundle 0.2.29 → 0.2.30（与 bibit.feature.json 同步）。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Mon, 21 Sep 2026 14:50:00 +0800
+
+bibit-runtime-plugin (0.1.36) resolute-porting; urgency=medium
+
+  * 修复 0.1.35 流水线在源码包步骤失败：3a6a12c 误把 debhelper 的打包中间产物提交
+    进仓库（debian/files、debian/bibit-runtime-plugin/**、debian/.debhelper/**、
+    debian/bibit-runtime-plugin.substvars、debhelper-build-stamp），CI 检出后
+    dpkg-genchanges -S 会从 debian/files 里读到上一版的
+    bibit-runtime-plugin_0.1.32_amd64.buildinfo，再去 stat 这个不存在的文件，报
+    cannot fstat file ... buildinfo: No such file or directory 并退出 25。
+  * 这些文件已移出索引并写进 .gitignore，debian/rules 每次构建都会重新生成；
+    插件 bundle 版本保持 0.2.29（本次只有打包侧改动）。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Mon, 21 Sep 2026 14:35:00 +0800
+
+bibit-runtime-plugin (0.1.32) resolute-porting; urgency=medium
+
+  * 设置导航的 12 个入口各自使用贴切的字形：专家 users、服务商 plug、Bibit 模型
+    brain、工具 wrench、MCP server、技能 sparkles、插件 puzzle、安全 security、
+    Agent Top gauge、运行状态 activity、抓包 radio、日志 logs。此前除安全以外全是
+    settings 齿轮。这些字形键需要宿主 bi-bit 0.1.16 及以上——更早的宿主把未知
+    iconKey 当非法值，会让整插件被拒。
+  * 随包安装的 feature capability grant 补上 host:actions：manifest 一直声明该
+    能力，grant 文件却只给 service:runtime / service:runtime-security，按包装机
+    的设备上专家页「Use expert」因能力未下发而保持灰态。
+  * debian/rules 不再写死插件包文件名，改为从 bibit.feature.json 的 version 推导。
+    0.1.31 的流水线正是卡在这里：rules 还写着 runtime-0.2.27，构建产物已经是
+    runtime-0.2.28，安装时报 install: No such file or directory。新增用例锁住
+    「打包只按 manifest 版本取 bundle」这个不变量。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Mon, 21 Sep 2026 10:50:00 +0800
+
+bibit-runtime-plugin (0.1.30) resolute-porting; urgency=medium
+
+  * Management 分组的前三个入口各自有了贴切的图标：专家用 feature（星芒）、
+    服务商商店用 store（门面）、Bibit 模型用 memory（芯片）。此前除安全之外的
+    入口都复用 settings 齿轮，左侧导航里分不出谁是谁。
+    图标键取自宿主当前发布版（bi-bit 0.1.15）已知的五个字形；宿主 main 上
+    已经扩到 17 个字形但尚未发布，等它发版后再换 users/sparkles/logs 这类更
+    贴切的字形——旧宿主遇到未知 iconKey 会整插件拒绝，不能抢跑。
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Sun, 20 Sep 2026 15:10:00 +0800
+
+bibit-runtime-plugin (0.1.29) resolute-porting; urgency=medium
+
+  * Monitor -> Logs now describes what it actually reads: the Runtime's
+    operational runtime.jsonl snapshot, not run.log.  The page names the file
+    it shows, labels the view "Recent" instead of "Live" (it is a bounded
+    re-read every 3s, not a follow), and renders an explicit "no log records"
+    line when the snapshot is empty, in both languages.
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Fri, 18 Sep 2026 18:45:00 +0800
+
+bibit-runtime-plugin (0.1.28) resolute-porting; urgency=medium
+
+  * Remove the "Explore Skills Hub" link from the Runtime skills page in the
+    plugin UI: the skills catalog now shows only the capability list, and the
+    unused i18n entry is dropped.  The matching Runtime console page drops the
+    same link and its skills_hub_btn translations.
+
+ -- Bianbu Agent <bianbu@spacemit.com>  Fri, 18 Sep 2026 12:20:00 +0800
+
+bibit-runtime-plugin (0.1.27) resolute-porting; urgency=medium
+
+  * Keep the external-service adapter alive through a stray SIGTERM.  systemd
+    treats SIGTERM as a clean exit, so `Restart=on-failure` left the unit dead
+    after any `pkill -f real_runtime_proxy.py` -- the same script the
+    documented development preview runs -- and every Runtime page in Bi-bit
+    then reported the service as offline until someone restarted the unit by
+    hand.  The unit now uses `Restart=always`, and the preview instructions
+    stop it by PID instead of by process name.
+  * Show the recovery command when the host reports the Runtime as offline.
+    Page loads rendered the host's own "The service is offline" placeholder;
+    they now go through the same translator as the mutation paths, which names
+    bibit-runtime-adapter@bianbu.service and the systemctl command that
+    restores it, in both languages.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Fri, 18 Sep 2026 10:30:00 +0800
+
+bibit-runtime-plugin (0.1.26) resolute-porting; urgency=medium
+
+  * Keep the Runtime's own refusal text whenever the gateway relays it.  The
+    host client normally replaces `error.message` with its canned wording, but
+    when the Runtime sentence survives, showing one generic sentence hid the
+    actionable reason behind it.  Runtime-authored (Chinese) reasons now win,
+    and the canned map stays as the fallback for the host's own placeholders.
+  * Route MCP and Plugin page failures (refresh, install, uninstall, delete)
+    through the same translator as the Providers and Experts pages, so a
+    refused operation shows something actionable instead of a bare error.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Thu, 17 Sep 2026 18:45:00 +0800
+
+bibit-runtime-plugin (0.1.25) resolute-porting; urgency=medium
+
+  * Drop the `record_kind` fallback when deciding whether a Provider is a
+    factory resource.  `origin` is part of the Runtime contract the plugin
+    targets, so the guess only ever hid the real signal; the DTO now requires
+    it and the dev mock reports it.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Thu, 17 Sep 2026 18:55:00 +0800
+
+bibit-runtime-plugin (0.1.24) resolute-porting; urgency=medium
+
+  * Explain every refused provider or expert delete in the UI.  The host
+    client keeps only the error code and drops the Runtime message, so a
+    refused delete read as a meaningless failure; the plugin now writes the
+    reason itself and names the experts that still use the provider.
+  * Stop labelling hand-made custom providers as factory resources.  The list
+    and the editor read the Runtime `origin` field and only fall back to
+    `record_kind` on older Runtimes.
+  * Offer the full vendor catalog in the provider picker: Anthropic, Gemini,
+    Mistral, Groq, xAI, NVIDIA, Hugging Face and Azure OpenAI are added next to
+    the existing entries, matching the vendor list the Bibit client ships.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Thu, 17 Sep 2026 18:20:00 +0800
+
+bibit-runtime-plugin (0.1.23) resolute-porting; urgency=medium
+
+  * Follow the Runtime default capabilities instead of keeping a tool list in
+    the plugin: the candidate catalog passes `preset` through, the expert
+    editor pre-selects and locks those checkboxes, and the saved payload still
+    carries them so the behaviour is unchanged on older Runtimes.
+  * Let the expert editor delete the factory expert that ships with Bibit.
+    The delete confirmation names the factory resource and explains that
+    reinstalling or upgrading the Runtime package restores it, and a refused
+    delete keeps the dialog with the Runtime message.
+  * Mark the factory provider (`record_kind: custom_provider`) in the provider
+    list and editor, so deleting "Bibit Built-in" is a deliberate action.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Thu, 17 Sep 2026 16:05:00 +0800
+
+bibit-runtime-plugin (0.1.22) resolute-porting; urgency=medium
+
+  * Show expert capability descriptions (tools, skills, plugins, MCP) on a
+    single truncated line in the expert editor, with the full text available
+    on hover so long descriptions no longer wrap and stretch the dialog.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Thu, 17 Sep 2026 06:30:00 +0800
+
+bibit-runtime-plugin (0.1.20) resolute-porting; urgency=medium
+
+  * Read the launch mode only from `metadata.execution.requested_mode`.  Runtime
+    0.1.57 rejects the retired `metadata.runtime` launch section, so the expert
+    editor no longer falls back to it.
+  * Keep the Bibit model page usable when the edge service fails.  A failing
+    /api/v1/plugin-consoles/bianbu.bibit.intent request no longer marks the
+    Runtime as unavailable; the page reports the edge service, the original
+    error and the 127.0.0.1:8765 hint, and offers a retry.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Tue, 15 Sep 2026 03:40:00 +0800
+
+bibit-runtime-plugin (0.1.19) resolute-porting; urgency=medium
+
+  * Drop the leftover compatibility branches in the settings pages.  Runtime
+    no longer exposes an Agent `hooks` field or `legacy_plugin_selection`, and
+    the only installable packages are Agents and Skills, so `AgentView` and
+    `PackageKind` shrink to the current contract and Hooks disappear from the
+    catalog navigation: a Plugin loads its own Hooks, the Plugins page and its
+    detail view already list them as members.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Tue, 15 Sep 2026 02:10:00 +0800
+
+bibit-runtime-plugin (0.1.18) resolute-porting; urgency=medium
+
+  * Describe the Hook catalog the way Runtime 0.1.40 reports it: Hooks load
+    with their Plugin instead of being configurable in an Expert.  The page now
+    shows the owning Plugin and an explicit "not loaded; restart required"
+    state instead of claiming Expert assignment.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Mon, 14 Sep 2026 17:15:00 +0800
+
+bibit-runtime-plugin (0.1.17) resolute-porting; urgency=medium
+
+  * Select Runtime plugin bundles in expert configuration.
+  * Remove standalone Hook navigation and preserve legacy selections.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Fri, 11 Sep 2026 18:35:00 +0800
+
+bibit-runtime-plugin (0.1.15) resolute-porting; urgency=medium
+
+  * Display retained missing capability references in expert configuration.
+  * Support MCP install/update semantics and stale Worker catalog status.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Thu, 10 Sep 2026 19:10:00 +0800
+
+bibit-runtime-plugin (0.1.14) resolute-porting; urgency=medium
+
+  * Save expert model changes independently of optional capability catalogs.
+  * Apply changed fields only and refresh expert cards immediately.
+  * Remove the obsolete configuration page and follow the host language.
+  * Show unlimited YOLO token quotas without changing normal-mode limits.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Wed, 09 Sep 2026 17:15:00 +0800
+
+bibit-runtime-plugin (0.1.13) resolute-porting; urgency=medium
+
+  * Close saved expert dialogs before refreshing the list.
+  * Distinguish saved experts from list refresh failures.
+  * Explain on-demand expert startup.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Wed, 09 Sep 2026 10:25:00 +0800
+
+bibit-runtime-plugin (0.1.12) resolute-porting; urgency=medium
+
+  * Isolate Runtime security service from the standalone Security plugin.
+  * Translate the Runtime bridge envelope and clarify connection diagnostics.
+
+ -- liudecheng[bot] <decheng.liu@spacemit.com>  Tue, 08 Sep 2026 22:13:00 +0800
+
+bibit-runtime-plugin (0.1.11) resolute-porting; urgency=medium
+
+  * Move management and monitoring into grouped core settings entries.
+  * Integrate real Bibit models, Runtime workers and independent security.
+
+ -- Decheng Liu <decheng.liu@spacemit.com>  Mon, 07 Sep 2026 15:20:00 +0800
+
+bibit-runtime-plugin (0.1.0) resolute-porting; urgency=medium
+
+  * Initial for main
+
+ -- liudecheng <liudecheng@LT-LiuDecheng-U>  Tue, 01 Sep 2026 16:03:32 +0800

@@ -1,0 +1,41 @@
+#!/usr/bin/make -f
+
+PACKAGE := bibit-runtime-plugin
+# The signed plugin bundle is named after the UI version in the manifest;
+# deriving it here keeps packaging from drifting when the manifest advances.
+PLUGIN_VERSION := $(shell python3 -c "import json;print(json.load(open('bibit.feature.json'))['version'])")
+PACKAGE_ROOT := $(CURDIR)/debian/$(PACKAGE)
+
+%:
+	dh $@
+
+override_dh_auto_clean:
+	dh_auto_clean
+
+override_dh_auto_build:
+	npm ci
+	npm run typecheck
+	npm run build:dev
+	npm run test:adapter
+	npm run test:ui
+	if [ ! -f .bibit-keys/runtime-development-private.pem ]; then npm run keygen; fi
+	npm run build:plugin
+
+override_dh_auto_install:
+	install -D -m 0755 deploy/real_runtime_proxy.py \
+		"$(PACKAGE_ROOT)/usr/lib/bibit-runtime-plugin/real_runtime_proxy.py"
+	install -D -m 0644 deploy/bibit-runtime-adapter.service \
+		"$(PACKAGE_ROOT)/usr/lib/systemd/system/bibit-runtime-adapter@.service"
+	install -D -m 0644 deploy/runtime.json \
+		"$(PACKAGE_ROOT)/etc/bibit/external-services.d/runtime.json"
+	install -D -m 0644 deploy/feature-capability-grants-runtime.json \
+		"$(PACKAGE_ROOT)/etc/bibit/feature-capability-grants.d/runtime.json"
+	install -D -m 0644 artifacts/runtime-$(PLUGIN_VERSION).bibit-plugin.tgz \
+		"$(PACKAGE_ROOT)/usr/lib/bibit/plugins/runtime.bibit-plugin.tgz"
+	install -D -m 0644 .bibit-keys/runtime-development-trust-store.json \
+		"$(PACKAGE_ROOT)/usr/share/bibit-runtime-plugin/runtime-development-trust-store.json"
+	install -D -m 0644 .bibit-keys/runtime-development-public.json \
+		"$(PACKAGE_ROOT)/usr/share/bibit-runtime-plugin/runtime-development-public.json"
+
+override_dh_installsystemd:
+	dh_installsystemd --no-enable --no-start

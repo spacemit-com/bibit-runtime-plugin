@@ -1,0 +1,26 @@
+Source: bibit-runtime-plugin
+Section: utils
+Priority: optional
+Maintainer: Decheng Liu <decheng.liu@spacemit.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ nodejs,
+ npm,
+ python3,
+Standards-Version: 4.6.2
+Homepage: https://gitlab.dc.com/bianbu/bianbu-star/bibit-runtime-plugin
+Rules-Requires-Root: no
+Vcs-Git: https://gitlab.dc.com/bianbu/bianbu-star/bibit-runtime-plugin.git
+Vcs-Browser: https://gitlab.dc.com/bianbu/bianbu-star/bibit-runtime-plugin
+
+Package: bibit-runtime-plugin
+Architecture: all
+Depends:
+ bianbu-agent-runtime,
+ python3:any,
+ systemd,
+ ${misc:Depends},
+Description: Bibit settings plugin for Bianbu Agent Runtime
+ This package installs the Bibit Runtime Feature plugin, a local adapter
+ service, and Bibit service registry grants for managing Bianbu Agent Runtime
+ configuration from Bibit.

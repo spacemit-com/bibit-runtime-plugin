@@ -1,0 +1,27 @@
+[Unit]
+Description=Bibit Runtime External Service Adapter
+After=network.target bianbu-agent-runtime.service
+Wants=bianbu-agent-runtime.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/lib/bibit-runtime-plugin/real_runtime_proxy.py
+Environment=RUNTIME_BASE_URL=http://127.0.0.1:9899
+Environment=BIND_HOST=127.0.0.1
+Environment=PORT=5186
+# Restart=always, not on-failure: systemd treats a stray SIGTERM as a clean
+# exit, and ExecStart shares its script name with the development preview that
+# docs/plugin-development.md tells developers to kill by name. With
+# on-failure that kill leaves every Bi-bit Runtime page showing the service as
+# offline until someone restarts this unit by hand.
+Restart=always
+RestartSec=2
+User=%i
+Group=%i
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

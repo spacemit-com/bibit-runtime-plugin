@@ -1,0 +1,241 @@
+{
+  "manifestSchemaVersion": 1,
+  "sdkApiVersion": 1,
+  "id": "runtime",
+  "version": "0.2.41",
+  "owner": "runtime-team",
+  "display": {
+    "titleKey": "runtime:title",
+    "fallbackTitle": "Runtime",
+    "iconKey": "settings",
+    "descriptionKey": "runtime:description",
+    "fallbackDescription": "Bianbu Agent Runtime configuration console"
+  },
+  "targets": [
+    "desktop"
+  ],
+  "requiredHostCapabilities": [
+    "service:runtime",
+    "service:runtime-security",
+    "host:actions"
+  ],
+  "contributions": {
+    "pages": [],
+    "settings": [
+      {
+        "id": "agents",
+        "path": "agents",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 100,
+          "fallbackTitle": "Experts",
+          "iconKey": "users",
+          "section": {
+            "id": "runtime-management",
+            "fallbackTitle": "Management",
+            "titleKey": "runtime:management"
+          },
+          "titleKey": "runtime:agents"
+        }
+      },
+      {
+        "id": "providers",
+        "path": "providers",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 102,
+          "fallbackTitle": "Providers",
+          "iconKey": "plug",
+          "section": {
+            "id": "runtime-management",
+            "fallbackTitle": "Management",
+            "titleKey": "runtime:management"
+          },
+          "titleKey": "runtime:providers"
+        }
+      },
+      {
+        "id": "bibit-models",
+        "path": "bibit-models",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 103,
+          "fallbackTitle": "Local Models",
+          "iconKey": "brain",
+          "section": {
+            "id": "runtime-management",
+            "fallbackTitle": "Management",
+            "titleKey": "runtime:management"
+          },
+          "titleKey": "runtime:bibit-models"
+        }
+      },
+      {
+        "id": "tools",
+        "path": "tools",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 104,
+          "fallbackTitle": "Tools",
+          "iconKey": "wrench",
+          "section": {
+            "id": "runtime-management",
+            "fallbackTitle": "Management",
+            "titleKey": "runtime:management"
+          },
+          "titleKey": "runtime:tools"
+        }
+      },
+      {
+        "id": "mcp",
+        "path": "mcp",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 105,
+          "fallbackTitle": "MCP",
+          "iconKey": "server",
+          "section": {
+            "id": "runtime-management",
+            "fallbackTitle": "Management",
+            "titleKey": "runtime:management"
+          },
+          "titleKey": "runtime:mcp"
+        }
+      },
+      {
+        "id": "skills",
+        "path": "skills",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 106,
+          "fallbackTitle": "Skills",
+          "iconKey": "sparkles",
+          "section": {
+            "id": "runtime-management",
+            "fallbackTitle": "Management",
+            "titleKey": "runtime:management"
+          },
+          "titleKey": "runtime:skills"
+        }
+      },
+      {
+        "id": "plugins",
+        "path": "plugins",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 108,
+          "fallbackTitle": "Plugins",
+          "iconKey": "puzzle",
+          "section": {
+            "id": "runtime-management",
+            "fallbackTitle": "Management",
+            "titleKey": "runtime:management"
+          },
+          "titleKey": "runtime:plugins"
+        }
+      },
+      {
+        "id": "security",
+        "path": "security",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 109,
+          "fallbackTitle": "Security",
+          "iconKey": "security",
+          "section": {
+            "id": "runtime-management",
+            "fallbackTitle": "Management",
+            "titleKey": "runtime:management"
+          },
+          "titleKey": "runtime:security"
+        }
+      },
+      {
+        "id": "agent-top",
+        "path": "agent-top",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 110,
+          "fallbackTitle": "Agent Top",
+          "iconKey": "gauge",
+          "section": {
+            "id": "runtime-monitoring",
+            "fallbackTitle": "Monitoring",
+            "titleKey": "runtime:monitoring"
+          },
+          "titleKey": "runtime:agent-top"
+        }
+      },
+      {
+        "id": "runtime-status",
+        "path": "runtime-status",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 111,
+          "fallbackTitle": "Runtime Status",
+          "iconKey": "activity",
+          "section": {
+            "id": "runtime-monitoring",
+            "fallbackTitle": "Monitoring",
+            "titleKey": "runtime:monitoring"
+          },
+          "titleKey": "runtime:runtime-status"
+        }
+      },
+      {
+        "id": "logs",
+        "path": "logs",
+        "surfaces": [
+          "main"
+        ],
+        "navigation": {
+          "group": "core",
+          "order": 113,
+          "fallbackTitle": "Logs",
+          "iconKey": "logs",
+          "section": {
+            "id": "runtime-monitoring",
+            "fallbackTitle": "Monitoring",
+            "titleKey": "runtime:monitoring"
+          },
+          "titleKey": "runtime:logs"
+        }
+      }
+    ],
+    "conversation": [],
+    "locales": [
+      "en",
+      "zh"
+    ]
+  }
+}

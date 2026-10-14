@@ -1,0 +1,473 @@
+.runtime-settings {
+  color: #172033;
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.runtime-console {
+  max-width: 1280px;
+}
+
+.runtime-header,
+.runtime-panel-heading,
+.runtime-header-actions,
+.runtime-tabs,
+.runtime-state,
+.runtime-stats,
+.runtime-kv,
+.runtime-form-grid,
+.runtime-check {
+  align-items: center;
+}
+
+.runtime-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #d8dee8;
+  padding-bottom: 16px;
+}
+
+.runtime-header h2 {
+  font-size: 24px;
+  margin: 0 0 6px;
+}
+
+.runtime-header p {
+  color: #5c667a;
+  margin: 0;
+}
+
+.runtime-eyebrow {
+  color: #246b57;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin: 0 0 6px;
+}
+
+.runtime-header-actions,
+.runtime-panel-heading,
+.runtime-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.runtime-header-actions,
+.runtime-panel-heading {
+  justify-content: space-between;
+}
+
+.runtime-state {
+  border: 1px solid #d8dee8;
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 13px;
+  gap: 8px;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
+.runtime-state i {
+  border-radius: 999px;
+  display: block;
+  height: 9px;
+  width: 9px;
+}
+
+.runtime-state.is-online i {
+  background: #1a8b60;
+}
+
+.runtime-state.is-offline i {
+  background: #c84a31;
+}
+
+.runtime-tabs {
+  border-bottom: 1px solid #d8dee8;
+  overflow-x: auto;
+}
+
+.runtime-tabs button {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: #5c667a;
+  cursor: pointer;
+  font: inherit;
+  padding: 10px 4px;
+}
+
+.runtime-tabs button.is-active {
+  border-bottom-color: #246b57;
+  color: #172033;
+  font-weight: 700;
+}
+
+.runtime-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.runtime-panel {
+  background: #fff;
+  border: 1px solid #d8dee8;
+  border-radius: 8px;
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 16px;
+}
+
+.runtime-panel-error {
+  border-color: #e2a493;
+  color: #8f2c1c;
+}
+
+.runtime-panel-success {
+  background: #ecf8f1;
+  border-color: #b7dccb;
+  color: #126244;
+}
+
+.runtime-panel h3,
+.runtime-subpanel h4 {
+  font-size: 16px;
+  margin: 0 0 12px;
+}
+
+.runtime-kv {
+  display: grid;
+  gap: 8px 12px;
+  grid-template-columns: minmax(80px, max-content) minmax(0, 1fr);
+}
+
+.runtime-kv dt,
+.runtime-table-sub {
+  color: #697386;
+}
+
+.runtime-kv dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.runtime-stats {
+  display: grid;
+  grid-template-columns: repeat(3, max-content 1fr);
+  gap: 6px 8px;
+}
+
+.runtime-stats strong {
+  color: #246b57;
+  font-size: 28px;
+}
+
+.runtime-button {
+  background: #246b57;
+  border: 1px solid #246b57;
+  border-radius: 6px;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  min-height: 34px;
+  padding: 7px 12px;
+}
+
+.runtime-button:disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+
+.runtime-button-secondary {
+  background: #fff;
+  color: #246b57;
+}
+
+.runtime-form-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+
+.runtime-form-grid label {
+  color: #4d586b;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+}
+
+.runtime-form-grid input,
+.runtime-form-grid select,
+.runtime-inline-field select,
+.runtime-json-editor {
+  border: 1px solid #cbd4e1;
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #172033;
+  font: inherit;
+  min-height: 36px;
+  min-width: 0;
+  padding: 7px 9px;
+  width: 100%;
+}
+
+.runtime-inline-field {
+  color: #4d586b;
+  display: grid;
+  gap: 6px;
+  max-width: 280px;
+}
+
+.runtime-json-editor {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  min-height: 220px;
+  margin-top: 12px;
+  resize: vertical;
+}
+
+.runtime-check {
+  display: flex !important;
+  gap: 8px !important;
+}
+
+.runtime-check input {
+  width: auto;
+}
+
+.runtime-table-wrap {
+  overflow-x: auto;
+}
+
+.runtime-table {
+  border-collapse: collapse;
+  min-width: 720px;
+  width: 100%;
+}
+
+.runtime-table th,
+.runtime-table td {
+  border-bottom: 1px solid #edf0f5;
+  padding: 10px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.runtime-table th {
+  color: #5c667a;
+  font-size: 12px;
+}
+
+.runtime-table-sub {
+  display: block;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.runtime-pill {
+  border: 1px solid #d8dee8;
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 12px;
+  padding: 3px 8px;
+}
+
+.runtime-pill-online {
+  background: #e9f7f0;
+  border-color: #b7dccb;
+  color: #126244;
+}
+
+.runtime-pill-warn {
+  background: #fff7e7;
+  border-color: #ead09a;
+  color: #8c5a00;
+}
+
+/* 准备中的 MCP 不是故障：npm 固化或冷启动本来就要几十秒，用中性蓝和「失败」
+   的琥珀色分开，免得用户以为装坏了。 */
+.runtime-pill-preparing {
+  background: #eaf3fe;
+  border-color: #b6d3f7;
+  color: #1c4f8f;
+}
+
+/* 只有真原因（准备失败原文）才用警告色；纯进度提示保持中性。 */
+.runtime-resource-hint-warn {
+  color: #8c5a00;
+}
+
+.runtime-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.runtime-card-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.runtime-mini-card {
+  border: 1px solid #edf0f5;
+  border-radius: 8px;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+}
+
+.runtime-mini-card h4,
+.runtime-mini-card p {
+  margin: 0;
+}
+
+.runtime-mini-card p {
+  display: grid;
+  gap: 3px;
+}
+
+.runtime-mini-card span {
+  color: #697386;
+  overflow-wrap: anywhere;
+}
+
+.runtime-link,
+.runtime-link-danger {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  padding: 0 8px 0 0;
+}
+
+.runtime-link {
+  color: #246b57;
+}
+
+.runtime-link-danger {
+  color: #b23b27;
+}
+
+.runtime-json-block,
+.runtime-log {
+  background: #0f1720;
+  border-radius: 8px;
+  color: #dbeafe;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+  max-height: 420px;
+  overflow: auto;
+  padding: 12px;
+  white-space: pre-wrap;
+}
+
+.runtime-subpanel {
+  border-top: 1px solid #edf0f5;
+  margin-top: 16px;
+  padding-top: 16px;
+}
+
+.runtime-link-danger {
+  background: transparent;
+  border: 0;
+  color: #b43d28;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+.runtime-message {
+  color: #126244;
+  margin: 12px 0 0;
+}
+
+@media (max-width: 680px) {
+  .runtime-header,
+  .runtime-header-actions,
+  .runtime-panel-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+.runtime-content { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+/* Runtime catalog layout, using the host's inherited theme variables. */
+.runtime-catalog { color: var(--foreground, #172033); }
+.runtime-catalog-intro { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 24px; font-size: 14px; color: var(--muted-foreground, #697386); }
+.runtime-catalog-intro p { margin: 0; }
+.runtime-catalog-heading { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+.runtime-catalog-heading h3 { margin: 0; color: var(--muted-foreground, #697386); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.runtime-catalog-count { padding: 2px 8px; border-radius: 999px; background: var(--muted, #f1f5f9); color: var(--muted-foreground, #697386); font-size: 12px; }
+.runtime-catalog-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.runtime-catalog-card { display: flex; align-items: flex-start; gap: 12px; border: 1px solid var(--border, #d8dee8); border-radius: 12px; padding: 16px; background: var(--card, #fff); min-width: 0; }
+.runtime-catalog-unavailable { opacity: .6; }
+.runtime-catalog-icon { display: flex; align-items: center; justify-content: center; flex: 0 0 36px; height: 36px; border-radius: 8px; color: var(--primary, #246b57); background: var(--muted, #f1f5f9); font-size: 22px; }
+.runtime-catalog-body { flex: 1; min-width: 0; }
+.runtime-catalog-name { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 14px; }
+.runtime-catalog-name strong { font-weight: 500; overflow-wrap: anywhere; }
+.runtime-catalog-name .runtime-pill { font-size: 10px; padding: 2px 6px; border-radius: 4px; }
+.runtime-catalog-id { display: block; margin-top: 4px; overflow-wrap: anywhere; font-size: 12px; color: var(--muted-foreground, #697386); }
+.runtime-catalog-description { margin: 4px 0 0; color: var(--muted-foreground, #697386); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.runtime-catalog-clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.runtime-catalog-hook .runtime-catalog-description { margin-top: 12px; font-size: 14px; }
+.runtime-catalog-origin, .runtime-catalog-reason { margin: 12px 0 0; font-size: 12px; color: var(--muted-foreground, #697386); }
+.runtime-catalog-reason { color: #b7791f; }
+.runtime-catalog-empty { padding: 24px 0; color: var(--muted-foreground, #697386); font-size: 14px; }
+@media (max-width: 640px) { .runtime-catalog-grid { grid-template-columns: minmax(0, 1fr); } }
+.runtime-page-description { color: var(--muted-foreground, #697386); font-size: 14px; margin: 0 0 12px; }
+.runtime-resource-form, .runtime-resource-form label { display: grid; gap: 12px; font-size: 14px; }
+.runtime-resource-inline { display: flex; gap: 8px; }
+.runtime-resource-form input { flex: 1; min-width: 0; width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid var(--border, #d8dee8); border-radius: 8px; background: var(--muted, #f8fafc); color: var(--foreground, #172033); font: inherit; }
+.runtime-resource-hint { font-size: 12px; margin: 0; color: var(--muted-foreground, #697386); overflow-wrap: anywhere; }
+.runtime-resource-card-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.runtime-resource-command { display: block; margin-top: 12px; padding: 6px 8px; font-size: 12px; border-radius: 6px; background: var(--muted, #f8fafc); overflow-wrap: anywhere; }
+.runtime-resource-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.runtime-resource-tags span { padding: 4px 8px; border-radius: 6px; font-size: 12px; background: var(--muted, #f1f5f9); }
+.runtime-resource-details { margin: 0; padding: 12px; border-radius: 8px; background: var(--muted, #f8fafc); color: var(--foreground, #172033); font-size: 12px; overflow-x: auto; }
+.runtime-dialog { width: min(640px, calc(100% - 48px)); max-height: calc(100% - 48px); box-sizing: border-box; border: 1px solid var(--border, #d8dee8); border-radius: 12px; background: var(--card, #fff); color: var(--foreground, #172033); padding: 24px; margin: auto; }
+.runtime-dialog::backdrop { background: #0008; }
+.runtime-dialog-heading, .runtime-dialog-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.runtime-dialog-heading h3 { margin: 0; }
+.runtime-dialog-actions { margin-top: 24px; justify-content: flex-end; }
+.runtime-provider-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; padding: 12px; border: 1px solid var(--border, #d8dee8); border-radius: 8px; background: var(--card, #fff); color: var(--foreground, #172033); text-align: left; font: inherit; cursor: pointer; }
+.runtime-provider-row strong, .runtime-provider-row small { display: block; }
+.runtime-provider-row small { margin-top: 4px; color: var(--muted-foreground, #697386); font-size: 12px; overflow-wrap: anywhere; }
+.runtime-provider-picker { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+.runtime-resource-form select { padding: 8px 12px; border: 1px solid var(--border, #d8dee8); border-radius: 8px; background: var(--muted, #f8fafc); color: var(--foreground, #172033); font: inherit; }
+.runtime-dialog > .runtime-resource-form { margin-top: 20px; }
+.runtime-config-field { position: relative; }
+.runtime-config-help { position: absolute; top: 0; right: 0; cursor: help; color: var(--muted-foreground, #697386); }
+/* Match the settings host theme while retaining Runtime's content structure. */
+.runtime-settings { color: var(--foreground, #172033); }
+.runtime-header { border-color: var(--border, #d8dee8); }
+.runtime-header h2 { font-size: 20px; }
+.runtime-header p, .runtime-kv dt, .runtime-table-sub, .runtime-table th { color: var(--muted-foreground, #697386); }
+.runtime-panel { background: var(--card, #fff); border-color: var(--border, #d8dee8); border-radius: 12px; }
+.runtime-button { background: var(--primary, #246b57); border-color: var(--primary, #246b57); color: var(--primary-foreground, #fff); font-size: 14px; border-radius: 8px; }
+.runtime-button-secondary { background: var(--card, #fff); color: var(--foreground, #172033); border-color: var(--border, #d8dee8); }
+.runtime-link { color: var(--primary, #246b57); }
+.runtime-form-grid label, .runtime-inline-field { color: var(--foreground, #172033); }
+.runtime-form-grid input, .runtime-form-grid select, .runtime-inline-field select, .runtime-json-editor { background: var(--muted, #f8fafc); color: var(--foreground, #172033); border-color: var(--border, #d8dee8); }
+.runtime-table th, .runtime-table td, .runtime-subpanel, .runtime-state, .runtime-tabs { border-color: var(--border, #d8dee8); }
+.runtime-tabs button { color: var(--muted-foreground, #697386); }
+.runtime-tabs button.is-active { color: var(--primary, #246b57); border-color: var(--primary, #246b57); }
+
+.runtime-console { max-width: 896px; margin-inline: auto; width: 100%; }
+.runtime-console-agents, .runtime-console-logs { max-width: 1024px; }
+.runtime-console-bibit-models, .runtime-console-agent-top, .runtime-console-runtime-status { max-width: 1152px; }
+.runtime-dialog:has(.runtime-provider-picker) { width: min(672px, calc(100% - 32px)); }
+.runtime-provider-picker { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.runtime-dialog:has(.runtime-provider-editor) { width: min(448px, calc(100% - 32px)); }
+.runtime-provider-editor .runtime-dialog-actions { margin-top: 8px; padding-top: 16px; border-top: 1px solid var(--border, #d8dee8); }
+.runtime-provider-editor .runtime-dialog-actions > .runtime-link-danger { margin-right: auto; }
+
+.runtime-control { box-sizing: border-box; width: 100%; min-width: 0; padding: 9px 11px; border: 1px solid var(--border, #d8dee8); border-radius: 8px; background: var(--muted, #f8fafc); color: var(--foreground, #172033); font: inherit; }
+.runtime-control:focus { outline: 2px solid var(--ring, #888); outline-offset: 1px; }
+.runtime-upload-input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.runtime-checkbox { width: 14px; height: 14px; flex: none; accent-color: var(--primary, #246b57); }
+.runtime-resource-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }

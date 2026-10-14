@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+
+# 镜像 chroot/初始化阶段可能既没有运行中的 systemd，也还没创建设备用户 bianbu：
+# 不能因为 `id bianbu` 失败就跳过 enable，否则首次启动时 adapter 一直是 disabled，
+# 宿主连不上 5186 会让 Runtime 各页面状态不同步。enable 只是写 wants 符号链接、
+# 不依赖运行中的 manager，因此始终执行；只有真实 systemd 运行且 bianbu 已存在时
+# 才立即 restart 让新代码生效，chroot 里等首次启动由 multi-user.target 自动拉起。
+if [ "$1" = "configure" ] && command -v systemctl >/dev/null 2>&1; then
+    systemctl enable bibit-runtime-adapter@bianbu.service || true
+    if [ -d /run/systemd/system ] && id bianbu >/dev/null 2>&1; then
+        systemctl daemon-reload || true
+        systemctl restart bibit-runtime-adapter@bianbu.service || true
+    fi
+fi
+
+#DEBHELPER#

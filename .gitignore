@@ -1,0 +1,17 @@
+.worktrees
+.worktrees/
+node_modules/
+dist/
+artifacts/
+.bibit-keys/
+.playwright-cli/
+__pycache__/
+*.pyc
+# debhelper 的打包中间产物：debian/rules 每次构建都会重写它们，提交进来只会
+# 让每次本地打包都把工作区改脏（3a6a12c 误提交过一次）。
+/debian/.debhelper/
+/debian/bibit-runtime-plugin/
+/debian/bibit-runtime-plugin.debhelper.log
+/debian/bibit-runtime-plugin.substvars
+/debian/debhelper-build-stamp
+/debian/files

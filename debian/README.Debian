@@ -1,0 +1,17 @@
+Bibit Runtime Plugin for Debian
+
+This package installs the Runtime Feature bundle at
+/usr/lib/bibit/plugins/runtime.bibit-plugin.tgz and the external-service
+adapter as bibit-runtime-adapter@bianbu.service (127.0.0.1:5186).
+The adapter connects to the separately installed Runtime at 127.0.0.1:9899.
+
+Use a Bi-bit host that supports settings navigation sections and language
+props. Restart the application after installation. Inspect the active Feature
+version in Settings > Extensions; the Runtime management Plugins page manages
+backend Runtime plugins, not Bibit Feature bundles.
+
+Development instructions are included as plugin-development.md (possibly
+compressed) in /usr/share/doc/bibit-runtime-plugin/. The source copy is
+docs/plugin-development.md.
+The bundled development public key is for internal development only; never
+ship or commit the signing private key.

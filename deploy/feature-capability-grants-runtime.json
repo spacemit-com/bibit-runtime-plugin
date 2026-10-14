@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "features": {
+    "runtime": [
+      "service:runtime",
+      "service:runtime-security",
+      "host:actions"
+    ]
+  },
+  "serviceOperations": {
+    "runtime": {
+      "runtime": [
+        "status.get.v1",
+        "workers.get.v1",
+        "settings.get.v1",
+        "settings.update.v1",
+        "agents.list.v1",
+        "agents.get.v1",
+        "agents.create.v1",
+        "agents.update.v1",
+        "agents.restart.v1",
+        "agents.delete.v1",
+        "agents.avatar.get.v1",
+        "agents.avatar.upload.v1",
+        "agents.avatar.delete.v1",
+        "providers.list.v1",
+        "providers.models.list.v1",
+        "providers.create.v1",
+        "providers.update.v1",
+        "providers.delete.v1",
+        "capabilities.list.v1",
+        "packages.list.v1",
+        "packages.get.v1",
+        "packages.install.v1",
+        "packages.verify.v1",
+        "packages.delete.v1",
+        "plugins.list.v1",
+        "plugins.effective.v1",
+        "plugins.get.v1",
+        "plugins.install.v1",
+        "plugins.delete.v1",
+        "plugins.rollback.v1",
+        "localModels.get.v1",
+        "executions.list.v1",
+        "executions.get.v1",
+        "executions.stop.v1",
+        "agents.revoke.v1",
+        "agentTop.get.v1",
+        "logs.get.v1",
+        "mcps.list.v1",
+        "mcps.install.v1",
+        "mcps.delete.v1",
+        "mcps.refresh.v1"
+      ],
+      "runtime-security": [
+        "agents.list.v1",
+        "agents.get.v1",
+        "agents.suspend.v1",
+        "agents.security-mode.get.v1",
+        "agents.security-mode.update.v1",
+        "capabilities.catalog.v1",
+        "capabilities.update.v1",
+        "permission.check.v1",
+        "dlp.matrix.v1",
+        "dlp.policy.update.v1",
+        "dlp.policy.delete.v1",
+        "dlp.scan.v1",
+        "dlp.stats.v1",
+        "audit.query.v1",
+        "audit.verify.v1",
+        "permissions.get.v1",
+        "permissions.set-group.v1"
+      ]
+    }
+  }
+}

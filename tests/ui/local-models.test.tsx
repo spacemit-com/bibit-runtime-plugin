@@ -1,0 +1,13 @@
+import React from 'react'
+import {afterEach, expect, it} from 'vitest'
+import {cleanup, render, screen} from '@testing-library/react'
+import {RuntimeLocalModels} from '../../src/RuntimeLocalModels'
+import type {LocalModelsView} from '../../src/runtime-contracts'
+afterEach(cleanup)
+const descriptor: LocalModelsView = {source:'bibit-intent', read_only:true, models:[
+  {model_type:'llm',name:'bibit-llm',artifact:'glm-edge-1.5b-chat-q4_0.gguf',backend:'ai_gateway',port:null,path:'/home/bianbu/.cache/models/llm/glm-edge-1.5b-chat-q4_0.gguf',download:{status:'completed',progress:100},server:{status:'running',managed:true}},
+  {model_type:'embed',name:'bibit-embed',artifact:'Qwen3-Embedding-0.6B-Q4_0.gguf',backend:'ai_gateway',port:null,path:'/home/bianbu/.cache/models/embed/Qwen3-Embedding-0.6B-Q4_0.gguf',download:{status:'downloading',progress:33},server:{status:'stopped',managed:true}},
+]}
+it('renders both local models read-only with state and progress, and offers no control',()=>{render(<RuntimeLocalModels descriptor={descriptor}/>);expect(screen.getByText('大语言模型')).toBeTruthy();expect(screen.getByText('向量模型')).toBeTruthy();expect(screen.queryByText('意图识别模型')).toBeNull();expect(screen.getByText('glm-edge-1.5b-chat-q4_0.gguf')).toBeTruthy();expect(screen.getByText('Qwen3-Embedding-0.6B-Q4_0.gguf')).toBeTruthy();expect(screen.queryByText(/bibit-llm/)).toBeNull();expect(screen.queryByText(/bibit-embed/)).toBeNull();expect(screen.getAllByRole('status').map(node=>node.textContent)).toEqual(['运行中','未加载']);expect(screen.getByText('33%')).toBeTruthy();expect(screen.getByText('/home/bianbu/.cache/models/embed/Qwen3-Embedding-0.6B-Q4_0.gguf',{exact:false})).toBeTruthy();for(const label of ['下载模型','启动服务','停止服务','取消下载'])expect(screen.queryByRole('button',{name:label})).toBeNull()})
+it('rejects invalid descriptors visibly',()=>{render(<RuntimeLocalModels descriptor={{models:[{model_type:'llm',name:'',backend:'ai_gateway',download:{status:'completed',progress:100},server:{status:'running'}},{model_type:'llm',name:'other',backend:'ai_gateway',download:{status:'completed',progress:100},server:{status:'running'}}]}}/>);expect(screen.getByRole('alert')).toHaveProperty('textContent','本地模型响应无效')})
+it('shows an unregistered model as such instead of inventing a state',()=>{render(<RuntimeLocalModels descriptor={{read_only:true,models:[{model_type:'llm',name:'bibit-llm',artifact:null,backend:'ai_gateway',port:null,path:null,download:{status:'idle',progress:0},server:{status:'stopped'}}]}}/>);expect(screen.getAllByRole('status').map(node=>node.textContent)).toEqual(['未加载','未在 AI Gateway 注册']);expect(screen.getByText('设备上没有该模型的下载或加载记录。')).toBeTruthy()})

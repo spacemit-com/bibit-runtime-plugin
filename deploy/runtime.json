@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "services": {
+    "runtime": {
+      "baseUrl": "http://127.0.0.1:5186",
+      "credentialParameters": {
+        "providers.create.v1": ["api_key"],
+        "providers.update.v1": ["api_key"]
+      },
+      "requestTimeoutMs": 180000
+    },
+    "runtime-security": {
+      "baseUrl": "http://127.0.0.1:5186",
+      "requestTimeoutMs": 30000
+    }
+  }
+}
